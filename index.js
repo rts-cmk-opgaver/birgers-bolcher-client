@@ -6,14 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function hentAlleBolcher(output) {
-    fetch('http://localhost:3333/products')
+    fetch('http://localhost:3333/api/v1/products')
         .then(function (result) {
             return result.json();
         })
-        .then(function (data) {
+        .then(function (response) {
             //output.innerHTML += data[0].navn;
-            console.log(data)
-            data.forEach((bolche) => {
+            console.log(response.data)
+            response.data.forEach((bolche) => {
                 let row = document.createElement('tr');
 
                 row.innerHTML = `  

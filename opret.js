@@ -1,43 +1,37 @@
 const form = document.getElementsByTagName("form")[0];
 
 fetch("http://localhost:3333/farve")
-	.then(response => response.json())
-	.then(data => buildDropdown(data, "Farve"))
-	.catch(err => console.error(err));
+	.then(res => res.json())
+	.then(data => buildDropdown(data, "Farve"));
 
 fetch("http://localhost:3333/smag")
-	.then(response => response.json())
-	.then(data => buildDropdown(data, "Smag"))
-	.catch(err => console.error(err));
+	.then(res => res.json())
+	.then(data => buildDropdown(data, "Smag"));
 
 fetch("http://localhost:3333/styrke")
-	.then(response => response.json())
-	.then(data => buildDropdown(data, "Styrke"))
-	.catch(err => console.error(err));
+	.then(res => res.json())
+	.then(data => buildDropdown(data, "Styrke"));
 
 fetch("http://localhost:3333/surhed")
-	.then(response => response.json())
-	.then(data => buildDropdown(data, "Surhed"))
-	.catch(err => console.error(err));
+	.then(res => res.json())
+	.then(data => buildDropdown(data, "Surhed"));
 
 function buildDropdown(data, labelName) {
-	const label = document.createElement("label");
-	label.htmlFor = labelName.toLowerCase();
+	let label = document.createElement("label");
 	label.innerText = labelName + " ";
+	label.htmlFor = labelName.toLowerCase();
 
-	const select = document.createElement("select");
-	select.name = labelName.toLowerCase();
+	let select = document.createElement("select");
 	select.id = labelName.toLowerCase();
 
 	data.forEach(item => {
-		const option = document.createElement("option");
-		
+		let option = document.createElement("option");
 		option.value = item.id;
 		option.innerText = item.navn;
 		select.appendChild(option);
 	});
 
-	label.appendChild(select)
+	label.appendChild(select);
 	form.appendChild(label);
 }
 
@@ -46,8 +40,20 @@ form.addEventListener("submit", function(event) {
 
 	fetch("http://localhost:3333/products", {
 		method: "POST",
+		headers: {
+			"content-type": "application/json"
+		},
 		body: JSON.stringify({
-			feta: "er godt"
+			navn: event.target.navn.value,
+			pris: parseInt(event.target.pris.value),
+			vaegt: parseInt(event.target.vaegt.value),
+			fk_smag: parseInt(event.target.smag.value),
+			fk_surhed: parseInt(event.target.surhed.value),
+			fk_styrke: parseInt(event.target.styrke.value),
+			fk_farve: parseInt(event.target.farve.value),
 		})
 	})
+		.then(res => {
+			console.log(res);
+		})
 });
