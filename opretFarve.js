@@ -6,7 +6,8 @@ form.addEventListener("submit", function(event) {
 	fetch("http://localhost:3333/farve", {
 		method: "POST",
 		headers: {
-			"content-type": "application/json"
+			"content-type": "application/json",
+			"authorization": "1234"
 		},
 		body: JSON.stringify({
 			navn: event.target.farve.value
